@@ -2,8 +2,22 @@ body {
   margin: 0;
 }
 
+.rel-node-shape-0 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .program-relation {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+}
+
+.line-dashed {
+  stroke-width: 2px;
+  stroke-dasharray: 5, 5, 5;
+  stroke-dashoffset: 3px;
+  stroke-linecap: butt;
+  stroke-linejoin: bevel;
 }
