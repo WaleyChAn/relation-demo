@@ -31,8 +31,8 @@ export default {
       rootData: {
         id: 'root',
         text: '当前程序 <br /> WD-IDE-D19',
-        width: 120,
-        height: 120,
+        // width: 120,
+        // height: 120,
         color: '#0dd2d9',
         borderColor: '#9dfcff',
         data: {
@@ -41,7 +41,21 @@ export default {
           procCode: 'MP-326-014'
         }
       },
-      graphOptions: {}
+      graphOptions: {
+        // debug: true,
+        // allowSwitchLineShape: true,
+        // allowSwitchJunctionPoint: true,
+        // defaultLineShape: 1,
+        // 'layouts': [
+        //   {
+        //     'label': '自动布局',
+        //     'layoutName': 'force',
+        //     'layoutClassName': 'seeks-layout-force'
+        //   }
+        // ]
+
+        // 这里可以参考"Graph 图谱"中的参数进行设置
+      }
     }
   },
   mounted () {
@@ -58,8 +72,8 @@ export default {
         return {
           borderColor: '#8ccdf8',
           color: '#026baf',
-          width: 120,
-          height: 120,
+          // width: 120,
+          // height: 120,
           ...item
         }
       })
@@ -67,8 +81,8 @@ export default {
         return {
           borderColor: '#fcb68e',
           color: '#ee6e00',
-          width: 120,
-          height: 120,
+          // width: 120,
+          // height: 120,
           ...item
         }
       })
@@ -76,8 +90,8 @@ export default {
         return {
           borderColor: '#8df6b8',
           color: '#03994c',
-          width: 120,
-          height: 120,
+          // width: 120,
+          // height: 120,
           ...item
         }
       })

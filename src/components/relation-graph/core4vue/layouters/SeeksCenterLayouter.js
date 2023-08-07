@@ -1,16 +1,16 @@
 import SeeksGraphMath from '../SeeksGraphMath'
 
-function SeeksCenterLayouter(layoutSetting, graphSetting) {
+function SeeksCenterLayouter (layoutSetting, graphSetting) {
   this.graphSetting = graphSetting
   this.config = layoutSetting || {}
   this.rootNode = null
   this.allNodes = []
   this.__origin_nodes = []
-  this.refresh = function() {
+  this.refresh = function () {
     if (window.SeeksGraphDebug) console.log('SeeksCenterLayouter:refresh')
     this.placeNodes(this.__origin_nodes, this.rootNode)
   }
-  this.placeNodes = function(allNodes, rootNode) {
+  this.placeNodes = function (allNodes, rootNode) {
     if (window.SeeksGraphDebug) console.log('SeeksCenterLayouter:placeNodes')
     if (!rootNode) {
       console.log('root is null:', rootNode)
@@ -111,7 +111,7 @@ function SeeksCenterLayouter(layoutSetting, graphSetting) {
     // newLevelNodes.push(rootNode)
     // this.setPlace(newLevelNodes, 0, rootNode)
   }
-  this.placeRelativePosition = function(rootNode, analyticResult) {
+  this.placeRelativePosition = function (rootNode, analyticResult) {
     var distance_coefficient = this.config.distance_coefficient === undefined ? 1 : this.config.distance_coefficient
     var __leve1_min_r = parseInt(((this.graphSetting.viewSize.height + this.graphSetting.viewSize.width) / analyticResult.max_deep * 0.2)) * distance_coefficient
     if (window.SeeksGraphDebug) console.log('analyticResult:', analyticResult, __leve1_min_r, this.config.distance_coefficient)
@@ -120,7 +120,7 @@ function SeeksCenterLayouter(layoutSetting, graphSetting) {
     this.allNodes.forEach(thisNode => {
       if (thisNode.lot.subling.level === 1) {
         __level1_r = parseInt(thisNode.lot.subling.all_size * 50 / Math.PI / 2)
-        if (__level1_r < __leve1_min_r)__level1_r = __leve1_min_r
+        if (__level1_r < __leve1_min_r) __level1_r = __leve1_min_r
         // if (__level1_r > 500)__level1_r = 500
         const _point = SeeksGraphMath.getOvalPoint(rootNode.lot.x, rootNode.lot.y, thisNode.lot.subling.level * __level1_r, thisNode.lot.strength_plus - (thisNode.lot.strength / 2), thisNode.lot.subling.all_strength)
         // const _point = SeeksGraphMath.getOvalPoint(this.rootNode.x, this.rootNode.y, thisNode.lot.subling.level * __level1_r, thisNode.lot.index_of_level, thisNode.lot.subling.all_size)
@@ -142,7 +142,7 @@ function SeeksCenterLayouter(layoutSetting, graphSetting) {
   }
   this.layoutTimes = 0
   // var ___this = this
-  this.autoLayout = function(forceLayout) {
+  this.autoLayout = function (forceLayout) {
     if (forceLayout) {
       this.layoutTimes = 0
     }
@@ -199,12 +199,12 @@ function SeeksCenterLayouter(layoutSetting, graphSetting) {
       this.applyToNodePosition(this.__origin_nodes[i])
     }
     // }
-    window.setTimeout(function() { this.autoLayout() }.bind(this), 30)
+    window.setTimeout(function () { this.autoLayout() }.bind(this), 30)
   }
-  this.stop = function() {
+  this.stop = function () {
     this.layoutTimes = 1000
   }
-  this.addElasticByLine = function(node1, node2) {
+  this.addElasticByLine = function (node1, node2) {
     var length = Math.sqrt(Math.pow((node1.y - node2.y), 2) + Math.pow((node1.x - node2.x), 2))
     if (length > 1000) {
       length = 1000
@@ -219,7 +219,7 @@ function SeeksCenterLayouter(layoutSetting, graphSetting) {
     this.addFtoNode(node1, _buff_x * Kf_1 * -1, _buff_y * Kf_1 * -1, 1)
     this.addFtoNode(node2, _buff_x * Kf_2, _buff_y * Kf_2, 1)
   }
-  this.addGravityByNode = function(node1, node2) {
+  this.addGravityByNode = function (node1, node2) {
     var length = Math.sqrt(Math.pow((node1.y - node2.y), 2) + Math.pow((node1.x - node2.x), 2))
     var zero_length = 300
     var Kf = length > zero_length ? 0 : ((zero_length - length) * 0.03)
@@ -235,23 +235,23 @@ function SeeksCenterLayouter(layoutSetting, graphSetting) {
     this.addFtoNode(node1, _buff_x * Kf, _buff_y * Kf, 0)
     this.addFtoNode(node2, _buff_x * Kf * -1, _buff_y * Kf * -1, 0)
   }
-  this.getNodeFWeight = function(node) {
+  this.getNodeFWeight = function (node) {
     var level = node.lot.level
-    if (level > 7)level = 7
-    if (level < 0)level = 0
+    if (level > 7) level = 7
+    if (level < 0) level = 0
     return (8 - level) / 8
   }
-  this.addFtoNode = function(node, x, y) {
+  this.addFtoNode = function (node, x, y) {
     // console.log('Add F:', node.text, type, parseInt(x), parseInt(y))
     if (isNaN(x) || isNaN(y)) {
       return
     }
     x = x / node.lot.strength
     y = y / node.lot.strength
-    if (x > 50)x = 50
-    if (y > 50)y = 50
-    if (x < -50)x = -50
-    if (y < -50)y = -50
+    if (x > 50) x = 50
+    if (y > 50) y = 50
+    if (x < -50) x = -50
+    if (y < -50) y = -50
     // if (isNaN(node.Fx)) {
     //   if (node.text === '宣洁')console.log('宣洁!!!NaN B buff x:', x, node.lot.strength, node)
     // }
@@ -261,7 +261,7 @@ function SeeksCenterLayouter(layoutSetting, graphSetting) {
     //   if (node.text === '宣洁')console.log('宣洁!!!NaN A buff x:', x, node.lot.strength, node)
     // }
   }
-  this.applyToNodePosition = function(node) {
+  this.applyToNodePosition = function (node) {
     // if (!node.lot.childs || node.lot.childs.length === 0) {
     //   return
     // }
@@ -271,7 +271,6 @@ function SeeksCenterLayouter(layoutSetting, graphSetting) {
     // console.log('F add:', node.name, node.Fx, node.Fy)
     const __buff_x = parseInt(node.Fx)
     const __buff_y = parseInt(node.Fy)
-    // console.log('F add:2:', node.name, __buff_x, __buff_y)
     node.x = node.x + __buff_x
     node.y = node.y + __buff_y
     // if (isNaN(node.x)) {
