@@ -222,7 +222,7 @@ function SeeksCenterLayouter (layoutSetting, graphSetting) {
   this.addGravityByNode = function (node1, node2) {
     var length = Math.sqrt(Math.pow((node1.y - node2.y), 2) + Math.pow((node1.x - node2.x), 2))
     var zero_length = 300
-    var Kf = length > zero_length ? 0 : ((zero_length - length) * 0.03)
+    var Kf = length > zero_length ? 0 : ((zero_length - length) * 0.1) // default 0.03
     if (zero_length < 30) {
       Kf = Kf * 100
     }
