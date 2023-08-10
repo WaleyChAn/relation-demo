@@ -154,8 +154,8 @@ export default {
         return {
           color: '#8ccdf8',
           fontColor: '#026baf',
-          from: item.parentId,
-          to: item.id,
+          from: item.id,
+          to: item.parentId,
           text: '上游'
         }
       })
