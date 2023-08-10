@@ -42,19 +42,7 @@ export default {
         }
       },
       graphOptions: {
-        // debug: true,
-        // allowSwitchLineShape: true,
-        // allowSwitchJunctionPoint: true,
-        // defaultLineShape: 1,
-        // 'layouts': [
-        //   {
-        //     'label': '自动布局',
-        //     'layoutName': 'force',
-        //     'layoutClassName': 'seeks-layout-force'
-        //   }
-        // ]
 
-        // 这里可以参考"Graph 图谱"中的参数进行设置
       }
     }
   },
@@ -66,32 +54,66 @@ export default {
       let { data: upstreamData } = await getUpstreamData()
       let { data: downstreamData } = await getDownstreamData()
       let { data: relatedData } = await getRelatedData()
+      let upstreamChildren = []
+      let downstreamChildren = []
+      let relatedChildren = []
 
       // 点
       upstreamData = upstreamData.map(item => {
+        const { data } = item
+        if (data.upstreamData && data.upstreamData.length > 0) {
+          data.upstreamData.map(child => {
+            upstreamChildren.push({
+              borderColor: '#8ccdf8',
+              color: '#026baf',
+              parentId: item.id,
+              ...child
+            })
+          })
+        }
+
         return {
           borderColor: '#8ccdf8',
           color: '#026baf',
-          // width: 120,
-          // height: 120,
           ...item
         }
       })
+
       downstreamData = downstreamData.map(item => {
+        const { data } = item
+        if (data.downstreamData && data.downstreamData.length > 0) {
+          data.downstreamData.map(child => {
+            downstreamChildren.push({
+              borderColor: '#fcb68e',
+              color: '#ee6e00',
+              parentId: item.id,
+              ...child
+            })
+          })
+        }
+
         return {
           borderColor: '#fcb68e',
           color: '#ee6e00',
-          // width: 120,
-          // height: 120,
           ...item
         }
       })
       relatedData = relatedData.map(item => {
+        const { data } = item
+        if (data.relatedData && data.relatedData.length > 0) {
+          data.relatedData.map(child => {
+            relatedChildren.push({
+              borderColor: '#8df6b8',
+              color: '#03994c',
+              parentId: item.id,
+              ...child
+            })
+          })
+        }
+
         return {
           borderColor: '#8df6b8',
           color: '#03994c',
-          // width: 120,
-          // height: 120,
           ...item
         }
       })
@@ -127,18 +149,54 @@ export default {
         }
       })
 
+      const upstreamChildrenLine = upstreamChildren.map(item => {
+        return {
+          color: '#8ccdf8',
+          fontColor: '#026baf',
+          from: item.parentId,
+          to: item.id,
+          text: '上游'
+        }
+      })
+      const downstreamChildrenLine = downstreamChildren.map(item => {
+        return {
+          color: '#fcb68e',
+          fontColor: '#ee6e00',
+          from: item.parentId,
+          to: item.id,
+          text: '下游'
+        }
+      })
+      const relatedChildrenLine = relatedChildren.map(item => {
+        return {
+          color: '#8df6b8',
+          fontColor: '#03994c',
+          from: item.parentId,
+          to: item.id,
+          styleClass: 'line-dashed',
+          text: '相关',
+          isHideArrow: true
+        }
+      })
+
       const data = {
         rootId: 'root',
         nodes: [
           this.rootData,
           ...upstreamData,
           ...downstreamData,
-          ...relatedData
+          ...relatedData,
+          ...upstreamChildren,
+          ...downstreamChildren,
+          ...relatedChildren
         ],
         lines: [
           ...upstreamLine,
           ...downstreamLine,
-          ...relatedLine
+          ...relatedLine,
+          ...upstreamChildrenLine,
+          ...downstreamChildrenLine,
+          ...relatedChildrenLine
         ]
       }
 
