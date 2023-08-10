@@ -54,6 +54,8 @@ export default {
       let { data: upstreamData } = await getUpstreamData()
       let { data: downstreamData } = await getDownstreamData()
       let { data: relatedData } = await getRelatedData()
+
+      // 相连点对应的上、下、相关的点
       let upstreamChildren = []
       let downstreamChildren = []
       let relatedChildren = []
@@ -65,7 +67,7 @@ export default {
           data.upstreamData.map(child => {
             upstreamChildren.push({
               borderColor: '#8ccdf8',
-              color: '#026baf',
+              color: '#36a5ec',
               parentId: item.id,
               ...child
             })
@@ -78,14 +80,13 @@ export default {
           ...item
         }
       })
-
       downstreamData = downstreamData.map(item => {
         const { data } = item
         if (data.downstreamData && data.downstreamData.length > 0) {
           data.downstreamData.map(child => {
             downstreamChildren.push({
               borderColor: '#fcb68e',
-              color: '#ee6e00',
+              color: '#f0a15d',
               parentId: item.id,
               ...child
             })
@@ -104,7 +105,7 @@ export default {
           data.relatedData.map(child => {
             relatedChildren.push({
               borderColor: '#8df6b8',
-              color: '#03994c',
+              color: '#55d895',
               parentId: item.id,
               ...child
             })
@@ -148,7 +149,7 @@ export default {
           isHideArrow: true
         }
       })
-
+      // 相连点对应的上、下、相关的线
       const upstreamChildrenLine = upstreamChildren.map(item => {
         return {
           color: '#8ccdf8',
@@ -167,17 +168,17 @@ export default {
           text: '下游'
         }
       })
-      const relatedChildrenLine = relatedChildren.map(item => {
-        return {
-          color: '#8df6b8',
-          fontColor: '#03994c',
-          from: item.parentId,
-          to: item.id,
-          styleClass: 'line-dashed',
-          text: '相关',
-          isHideArrow: true
-        }
-      })
+      // const relatedChildrenLine = relatedChildren.map(item => {
+      //   return {
+      //     color: '#8df6b8',
+      //     fontColor: '#03994c',
+      //     from: item.parentId,
+      //     to: item.id,
+      //     styleClass: 'line-dashed',
+      //     text: '相关',
+      //     isHideArrow: true
+      //   }
+      // })
 
       const data = {
         rootId: 'root',
@@ -187,16 +188,16 @@ export default {
           ...downstreamData,
           ...relatedData,
           ...upstreamChildren,
-          ...downstreamChildren,
-          ...relatedChildren
+          ...downstreamChildren
+          // ...relatedChildren
         ],
         lines: [
           ...upstreamLine,
           ...downstreamLine,
           ...relatedLine,
           ...upstreamChildrenLine,
-          ...downstreamChildrenLine,
-          ...relatedChildrenLine
+          ...downstreamChildrenLine
+          // ...relatedChildrenLine
         ]
       }
 
