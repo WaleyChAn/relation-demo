@@ -18,8 +18,9 @@
 // 基础样式
 import './index.css'
 // 引入关系图组件，建议在.eslintignore中忽略该文件
+// 文档 http://relation-graph.com/#/docs/start
 import RelationGraph from '@/components/relation-graph'
-import { getUpstreamData, getDownstreamData, getRelatedData } from './fake-data'
+import { getUpstreamData, getDownstreamData, getRelatedData } from './real-data'
 
 export default {
   name: 'ProgramRelation',
@@ -30,15 +31,13 @@ export default {
     return {
       rootData: {
         id: 'root',
-        text: '当前程序 <br /> WD-IDE-D19',
-        // width: 120,
-        // height: 120,
+        text: '苍南项目部组织与基本运作规则 <br /> BJ-30M-010',
         color: '#0dd2d9',
         borderColor: '#9dfcff',
         data: {
-          name: '基层分工会组织管理流程',
-          procedureId: 'af0ebf93-7623-4940-a8bf-9cc897bf37a8',
-          procCode: 'MP-326-014'
+          name: '苍南项目部组织与基本运作规则',
+          procedureId: 'root',
+          procCode: 'BJ-30M-010'
         }
       },
       graphOptions: {
