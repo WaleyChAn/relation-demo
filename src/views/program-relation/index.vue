@@ -1,16 +1,32 @@
 <template>
-  <div class="program-relation"
-       v-loading="true">
-    <RelationGraph ref="seeksRelationGraph"
-                   :options="graphOptions"
-                   :on-node-click="onNodeClick"
-                   :on-line-click="onLineClick">
-      <div slot="node"
-           slot-scope="{ node }">
-        <div v-html="node.text"
-             class="program-relation-item"></div>
-      </div>
-    </RelationGraph>
+  <div class="program-relation">
+    <div ref="refRelationWrapper"
+         class="program-relation-wrapper"
+         @click="isShowNodeMenuPanel = false">
+      <RelationGraph ref="seeksRelationGraph"
+                     :options="graphOptions"
+                     :on-node-click="onNodeClick"
+                     :on-line-click="onLineClick">
+        <div slot="node"
+             slot-scope="{ node }"
+             class="program-relation-item"
+             v-html="node.text"
+             @contextmenu.prevent.stop="showNodeMenus(node, $event)"></div>
+      </RelationGraph>
+    </div>
+    <div v-show="isShowNodeMenuPanel"
+         :style="{left: nodeMenuPanelPosition.x + 'px', top: nodeMenuPanelPosition.y + 'px' }"
+         class="program-relation-menu">
+      <div class="menu-title">对这个节点进行操作：</div>
+      <div class="menu-item"
+           @click.stop="doAction('操作1')">操作1</div>
+      <div class="menu-item"
+           @click.stop="doAction('操作2')">操作2</div>
+      <div class="menu-item"
+           @click.stop="doAction('操作3')">操作3</div>
+      <div class="menu-item"
+           @click.stop="doAction('操作4')">操作4</div>
+    </div>
   </div>
 </template>
 
@@ -40,6 +56,9 @@ export default {
           procCode: 'BJ-30M-010'
         }
       },
+      isShowNodeMenuPanel: false,
+      nodeMenuPanelPosition: { x: 0, y: 0 },
+      currentNode: null,
       graphOptions: {
 
       }
@@ -209,6 +228,19 @@ export default {
     },
     onLineClick (lineObject, linkObject, $event) {
       console.log('onLineClick:', lineObject)
+    },
+    showNodeMenus (nodeObject, $event) {
+      this.currentNode = nodeObject
+      const basePosition = this.$refs.refRelationWrapper.getBoundingClientRect()
+
+      console.log('showNodeMenus:', $event, basePosition)
+      this.isShowNodeMenuPanel = true
+      this.nodeMenuPanelPosition.x = $event.clientX - basePosition.x
+      this.nodeMenuPanelPosition.y = $event.clientY - basePosition.y
+    },
+    doAction (actionName) {
+      console.log('对节点【' + this.currentNode.text + '】进行了：' + actionName)
+      this.isShowNodeMenuPanel = false
     }
   }
 }
