@@ -230,13 +230,15 @@ export default {
       console.log('onLineClick:', lineObject)
     },
     showNodeMenus (nodeObject, $event) {
+      const event = $event || window.event
+
       this.currentNode = nodeObject
       const basePosition = this.$refs.refRelationWrapper.getBoundingClientRect()
 
-      console.log('showNodeMenus:', $event, basePosition)
+      // console.log('showNodeMenus:', event.clientX, basePosition)
       this.isShowNodeMenuPanel = true
-      this.nodeMenuPanelPosition.x = $event.clientX - basePosition.x
-      this.nodeMenuPanelPosition.y = $event.clientY - basePosition.y
+      this.nodeMenuPanelPosition.x = event.clientX - basePosition.left
+      this.nodeMenuPanelPosition.y = event.clientY - basePosition.top
     },
     doAction (actionName) {
       console.log('对节点【' + this.currentNode.text + '】进行了：' + actionName)
